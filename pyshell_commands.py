@@ -16,7 +16,18 @@ def ls(arguments: List[str]) -> str:
     """
     Print all files and directories in current directory.
     """
-    return " ".join(glob.glob("*"))
+    if len(arguments) == 1:
+        return " ".join(glob.glob("*"))
+    else:
+        all_files = ""
+        for file in arguments[:HISTORY_LOCATION]:
+            if os.path.isfile(file):
+                all_files += f"{file}\n"
+            elif os.path.isdir(file):
+                all_files += f"{file}:\n{" ".join(glob.glob(f"{file}/*"))}\n"
+            else:
+                all_files += f"{file}: No such file or directory\n"
+        return all_files
 
 
 def cd(arguments: List[str]) -> None:
