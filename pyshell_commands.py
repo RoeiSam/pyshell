@@ -60,3 +60,12 @@ def man(command: str) -> str:
     """
     return eval(f"{command}.__doc__")
 
+
+def history(commands: List[str]) -> str:
+    """
+    Print the history of your commands.
+    """
+    commands_history = ""
+    for i in range(len(commands)):
+        commands_history += (f"{i + 1}\t{commands[i]}\n")
+    return commands_history
