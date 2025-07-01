@@ -9,20 +9,20 @@ import os
 from typing import List
 
 
-def ls() -> str:
+def ls(arguments: List[str]) -> str:
     """
     Print all files and directories in current directory.
     """
-    return glob.glob("*")
+    return " ".join(glob.glob("*"))
 
 
-def cd(dir: str) -> None:
+def cd(arguments: List[str]) -> None:
     """
     Enter to directory dir.
     Usage: cd [directory]
     """
     try:
-        os.chdir(dir)
+        os.chdir(arguments[0])
     except FileNotFoundError:
         print("Directory doesn't exists")
     except PermissionError:
@@ -31,7 +31,7 @@ def cd(dir: str) -> None:
         print("This is not a directory")
 
 
-def pwd() -> str:
+def pwd(arguments: List[str]) -> str:
     """
     Print the current location path.
     """
@@ -46,26 +46,16 @@ def echo(arguments: List[str]) -> str:
     return " ".join(arguments)
 
 
-def logname() -> str:
+def logname(arguments: List[str]) -> str:
     """
     Print user´s login name
     """
     return getpass.getuser()
 
 
-def man(command: str) -> str:
+def man(arguments: List[str]) -> str:
     """
     Print explanation and usage of the command.
     Usage: man [command]
     """
-    return eval(f"{command}.__doc__")
-
-
-def history(commands: List[str]) -> str:
-    """
-    Print the history of your commands.
-    """
-    commands_history = ""
-    for i in range(len(commands)):
-        commands_history += (f"{i + 1}\t{commands[i]}\n")
-    return commands_history
+    return eval(f"{arguments[0]}.__doc__")
