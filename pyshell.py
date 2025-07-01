@@ -3,9 +3,10 @@ Purpose: Implementation of shell
 Author: Roei Samuel
 Time: 01.07.25
 """
-from pyshell_commands import ls
+from pyshell_commands import ls, cd, pwd
 
 COMMAND_NAME = 0
+FIRST_ARGUMENT = 1
 
 def pyshell() -> None:
     """
@@ -13,11 +14,16 @@ def pyshell() -> None:
     :return: None
     """
     while True:
-        command = input("-> ")
+        current_location = pwd()
+        command = input(f"{current_location} -> ")
         command = command.split()
 
-        if(command[COMMAND_NAME] == "ls"):
+        if command[COMMAND_NAME] == "ls":
             print(" ".join(ls()))
+        elif command[COMMAND_NAME] == "cd":
+            cd(command[FIRST_ARGUMENT])
+        elif command[COMMAND_NAME] == "pwd":
+            print(pwd())
 
 def main() -> None:
     print("Welcome to the Python Shell!")
