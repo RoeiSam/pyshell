@@ -43,7 +43,7 @@ def echo(arguments: List[str]) -> str:
     Print all arguments.
     Usage: echo [argument] [argument]...
     """
-    return " ".join(arguments)
+    return " ".join(arguments[:-1])
 
 
 def logname(arguments: List[str]) -> str:
@@ -59,3 +59,13 @@ def man(arguments: List[str]) -> str:
     Usage: man [command]
     """
     return eval(f"{arguments[0]}.__doc__")
+
+
+def history(arguments: List[str]) -> str:
+    """
+    Print the history of your commands.
+    """
+    commands_history = ""
+    for i in range(len(arguments[0])):
+        commands_history += (f"{i + 1}\t{arguments[0][i]}\n")
+    return commands_history
