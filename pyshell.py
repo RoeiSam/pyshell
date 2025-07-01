@@ -1,7 +1,7 @@
 """
 Purpose: Implementation of shell
 Author: Roei Samuel
-Time: 01.07.25
+Date: 01.07.25
 """
 from pyshell_commands import ls, cd, pwd, echo, logname
 
@@ -15,17 +15,12 @@ def pyshell() -> None:
     """
     print("Welcome to the Python Shell!")
     while True:
-        command = input(f"{logname()}:{pwd()} -> ")
+        command = input(f"{logname([])}:{pwd([])} -> ")
         command = command.split()
-        if len(command) > 0:
-            if command[COMMAND_NAME] == "ls":
-                print(" ".join(ls()))
-            elif command[COMMAND_NAME] == "cd":
-                cd(command[FIRST_ARGUMENT])
-            elif command[COMMAND_NAME] == "pwd":
-                print(pwd())
-            elif command[COMMAND_NAME] == "echo":
-                print(echo(command[FIRST_ARGUMENT:]))
+        if command:
+            return_string = eval(f"{command[COMMAND_NAME]}({command[FIRST_ARGUMENT:]})")
+            if return_string:
+                print(return_string)
 
 def main() -> None:
     pyshell()

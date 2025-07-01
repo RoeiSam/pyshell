@@ -9,19 +9,19 @@ import os
 from typing import List
 
 
-def ls() -> str:
+def ls(arguments: List[str]) -> str:
     """
     Return a list of all files and directories in current directory.
     """
-    return glob.glob("*")
+    return " ".join(glob.glob("*"))
 
 
-def cd(dir: str) -> None:
+def cd(arguments: List[str]) -> None:
     """
     Enter to directory dir.
     """
     try:
-        os.chdir(dir)
+        os.chdir(arguments[0])
     except FileNotFoundError:
         print("Directory doesn't exists")
     except PermissionError:
@@ -30,7 +30,7 @@ def cd(dir: str) -> None:
         print("This is not a directory")
 
 
-def pwd() -> str:
+def pwd(arguments: List[str]) -> str:
     """
     Return the current location path.
     """
@@ -44,7 +44,7 @@ def echo(arguments: List[str]) -> str:
     return " ".join(arguments)
 
 
-def logname() -> str:
+def logname(arguments: List[str]) -> str:
     """
     Return user´s login name
     """
