@@ -5,13 +5,13 @@ Time: 01.07.25
 """
 import glob
 import os
+from typing import List
 
 def ls() -> str:
     """
     Return a list all files and directories in current directory.
     """
-    all_files = glob.glob("*")
-    return all_files
+    return glob.glob("*")
 
 def cd(dir: str) -> None:
     """
@@ -31,3 +31,10 @@ def pwd() -> str:
     Return the current location path.
     """
     return os.getcwd()
+
+def echo(arguments: List[str]) -> str:
+    """
+    Return all arguments as a string.
+    """
+    return " ".join(arguments)
+

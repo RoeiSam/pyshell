@@ -3,7 +3,7 @@ Purpose: Implementation of shell
 Author: Roei Samuel
 Time: 01.07.25
 """
-from pyshell_commands import ls, cd, pwd
+from pyshell_commands import ls, cd, pwd, echo
 
 COMMAND_NAME = 0
 FIRST_ARGUMENT = 1
@@ -24,6 +24,8 @@ def pyshell() -> None:
             cd(command[FIRST_ARGUMENT])
         elif command[COMMAND_NAME] == "pwd":
             print(pwd())
+        elif command[COMMAND_NAME] == "echo":
+            print(echo(command[FIRST_ARGUMENT:]))
 
 def main() -> None:
     print("Welcome to the Python Shell!")
