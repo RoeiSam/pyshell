@@ -18,21 +18,22 @@ def convert_command(command: str, commands_history: List[str]) -> str:
     :return: The command seperated to command name and arguments.
     """
     command = command.split()
-    if command[0] == "!!":
-        del command[0]
-        for i in range(len(commands_history[LAST_COMMAND].split())):
-            command.insert(i, commands_history[LAST_COMMAND].split()[i])
-        print(" ".join(command))
-    elif command[0].startswith("!") and command[0][1].isdigit():
-        for i in range(len(commands_history[int(command[0][1]) - 1].split())):
-            command.insert(i + 1, commands_history[int(command[0][1]) - 1].split()[i])
-        del command[0]
-        print(" ".join(command))
-    elif command[0].startswith("!-") and command[0][2].isdigit():
-        for i in range(len(commands_history[-int(command[COMMAND_NAME][2])].split())):
-            command.insert(i + 1, commands_history[-int(command[COMMAND_NAME][2])].split()[i])
-        del command[0]
-        print(" ".join(command))
+    if command[0].startswith("!"):
+        if command[0][1] == "!":
+            wanted_command = LAST_COMMAND
+        elif command[0][1:].isdigit():
+            wanted_command = int(command[0][1:]) - 1
+        elif command[0][1] == "-" and command[0][2:].isdigit():
+            wanted_command = -int(command[COMMAND_NAME][2:])
+        # else:
+        #     return command
+        try:
+            for i in range(len(commands_history[wanted_command].split())):
+                command.insert(i + 1, commands_history[wanted_command].split()[i])
+            del command[0]
+            print(" ".join(command))
+        except (IndexError, UnboundLocalError):
+            pass
     return command
 
 
@@ -53,7 +54,7 @@ def pyshell() -> None:
                 return_string = eval(f"{command[COMMAND_NAME]}({command[FIRST_ARGUMENT:]})")
                 if return_string:
                     print(return_string)
-            except NameError:
+            except (NameError, SyntaxError):
                 print("No such command")
 
 def main() -> None:
