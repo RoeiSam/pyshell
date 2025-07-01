@@ -8,11 +8,13 @@ import glob
 import os
 from typing import List
 
+
 def ls() -> str:
     """
     Return a list of all files and directories in current directory.
     """
     return glob.glob("*")
+
 
 def cd(dir: str) -> None:
     """
@@ -27,17 +29,20 @@ def cd(dir: str) -> None:
     except NotADirectoryError:
         print("This is not a directory")
 
+
 def pwd() -> str:
     """
     Return the current location path.
     """
     return os.getcwd()
 
+
 def echo(arguments: List[str]) -> str:
     """
     Return all arguments as a string.
     """
     return " ".join(arguments)
+
 
 def logname() -> str:
     """

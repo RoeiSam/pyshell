@@ -17,15 +17,15 @@ def pyshell() -> None:
     while True:
         command = input(f"{logname()}:{pwd()} -> ")
         command = command.split()
-
-        if command[COMMAND_NAME] == "ls":
-            print(" ".join(ls()))
-        elif command[COMMAND_NAME] == "cd":
-            cd(command[FIRST_ARGUMENT])
-        elif command[COMMAND_NAME] == "pwd":
-            print(pwd())
-        elif command[COMMAND_NAME] == "echo":
-            print(echo(command[FIRST_ARGUMENT:]))
+        if len(command) > 0:
+            if command[COMMAND_NAME] == "ls":
+                print(" ".join(ls()))
+            elif command[COMMAND_NAME] == "cd":
+                cd(command[FIRST_ARGUMENT])
+            elif command[COMMAND_NAME] == "pwd":
+                print(pwd())
+            elif command[COMMAND_NAME] == "echo":
+                print(echo(command[FIRST_ARGUMENT:]))
 
 def main() -> None:
     pyshell()
