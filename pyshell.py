@@ -4,42 +4,10 @@ Author: Roei Samuel
 Date: 01.07.25
 """
 from pyshell_commands import ls, cd, pwd, echo, logname, man, history
-from typing import List
+from parse_command import convert_command
 
 COMMAND_NAME = 0
 FIRST_ARGUMENT = 1
-LAST_COMMAND = -1
-EVENT_DESIGNATOR_SIGN = "!"
-EVENT_DESIGNATOR_TYPE_LOCATION = 1
-EVENT_DESIGNATOR_NUMBER = 2
-EVENT_DESIGNATOR_LAST_COMMAND = "!"
-EVENT_DESIGNATOR_FROM_END = "-"
-
-
-def convert_command(command: str, commands_history: List[str]) -> str:
-    """
-    Convert input from user to command and arguments.
-    :param command: The input from the user.
-    :param commands_history: History of all commands so far.
-    :return: The command seperated to command name and arguments.
-    """
-    command = command.split()
-    if command[COMMAND_NAME].startswith(EVENT_DESIGNATOR_SIGN):
-        if command[COMMAND_NAME][EVENT_DESIGNATOR_TYPE_LOCATION] == EVENT_DESIGNATOR_LAST_COMMAND:
-            wanted_command = LAST_COMMAND
-        elif command[COMMAND_NAME][EVENT_DESIGNATOR_TYPE_LOCATION:].isdigit():
-            wanted_command = int(command[COMMAND_NAME][EVENT_DESIGNATOR_TYPE_LOCATION:]) - 1
-        elif (command[COMMAND_NAME][EVENT_DESIGNATOR_TYPE_LOCATION] == EVENT_DESIGNATOR_FROM_END and
-              command[COMMAND_NAME][EVENT_DESIGNATOR_NUMBER:].isdigit()):
-            wanted_command = -int(command[COMMAND_NAME][EVENT_DESIGNATOR_NUMBER:])
-        try:
-            for i in range(len(commands_history[wanted_command].split())):
-                command.insert(i + 1, commands_history[wanted_command].split()[i])
-            del command[0]
-            print(" ".join(command))
-        except (IndexError, UnboundLocalError):
-            pass
-    return command
 
 
 def pyshell() -> None:
