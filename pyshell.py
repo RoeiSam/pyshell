@@ -9,6 +9,12 @@ from typing import List
 COMMAND_NAME = 0
 FIRST_ARGUMENT = 1
 LAST_COMMAND = -1
+EVENT_DESIGNATOR_SIGN = "!"
+EVENT_DESIGNATOR_TYPE_LOCATION = 1
+EVENT_DESIGNATOR_NUMBER = 2
+EVENT_DESIGNATOR_LAST_COMMAND = "!"
+EVENT_DESIGNATOR_FROM_END = "-"
+
 
 def convert_command(command: str, commands_history: List[str]) -> str:
     """
@@ -18,15 +24,14 @@ def convert_command(command: str, commands_history: List[str]) -> str:
     :return: The command seperated to command name and arguments.
     """
     command = command.split()
-    if command[0].startswith("!"):
-        if command[0][1] == "!":
+    if command[COMMAND_NAME].startswith(EVENT_DESIGNATOR_SIGN):
+        if command[COMMAND_NAME][EVENT_DESIGNATOR_TYPE_LOCATION] == EVENT_DESIGNATOR_LAST_COMMAND:
             wanted_command = LAST_COMMAND
-        elif command[0][1:].isdigit():
-            wanted_command = int(command[0][1:]) - 1
-        elif command[0][1] == "-" and command[0][2:].isdigit():
-            wanted_command = -int(command[COMMAND_NAME][2:])
-        # else:
-        #     return command
+        elif command[COMMAND_NAME][EVENT_DESIGNATOR_TYPE_LOCATION:].isdigit():
+            wanted_command = int(command[COMMAND_NAME][EVENT_DESIGNATOR_TYPE_LOCATION:]) - 1
+        elif (command[COMMAND_NAME][EVENT_DESIGNATOR_TYPE_LOCATION] == EVENT_DESIGNATOR_FROM_END and
+              command[COMMAND_NAME][EVENT_DESIGNATOR_NUMBER:].isdigit()):
+            wanted_command = -int(command[COMMAND_NAME][EVENT_DESIGNATOR_NUMBER:])
         try:
             for i in range(len(commands_history[wanted_command].split())):
                 command.insert(i + 1, commands_history[wanted_command].split()[i])
