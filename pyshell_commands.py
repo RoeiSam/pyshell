@@ -11,7 +11,7 @@ from typing import List
 
 def ls() -> str:
     """
-    Return a list of all files and directories in current directory.
+    Print all files and directories in current directory.
     """
     return glob.glob("*")
 
@@ -19,6 +19,7 @@ def ls() -> str:
 def cd(dir: str) -> None:
     """
     Enter to directory dir.
+    Usage: cd [directory]
     """
     try:
         os.chdir(dir)
@@ -32,21 +33,30 @@ def cd(dir: str) -> None:
 
 def pwd() -> str:
     """
-    Return the current location path.
+    Print the current location path.
     """
     return os.getcwd()
 
 
 def echo(arguments: List[str]) -> str:
     """
-    Return all arguments as a string.
+    Print all arguments.
+    Usage: echo [argument] [argument]...
     """
     return " ".join(arguments)
 
 
 def logname() -> str:
     """
-    Return user´s login name
+    Print user´s login name
     """
     return getpass.getuser()
+
+
+def man(command: str) -> str:
+    """
+    Print explenation and usage of the command.
+    Usage: man [command]
+    """
+    return eval(f"{command}.__doc__")
 
