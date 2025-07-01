@@ -55,7 +55,7 @@ def logname() -> str:
 
 def man(command: str) -> str:
     """
-    Print explenation and usage of the command.
+    Print explanation and usage of the command.
     Usage: man [command]
     """
     return eval(f"{command}.__doc__")
