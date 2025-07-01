@@ -22,3 +22,21 @@ def touch(arguments: List[str]) -> None:
                 Path.touch(file)
             except NotADirectoryError:
                 print(f"touch: cannot touch '{file}': No such file or directory")
+
+
+def cat(arguments: List[str]) -> str:
+    """
+    Print content of files.
+    Usage: cat [filename]...
+    """
+    content = ""
+    for file in arguments[:HISTORY_LOCATION]:
+        try:
+            with open(file, "r") as read_file:
+                content = content + read_file.read() + "\n"
+        except IsADirectoryError:
+            print(f"cat: {file}: Is a directory")
+        except FileNotFoundError:
+            print(f"cat: {file}: No such file or directory")
+    return content
+
