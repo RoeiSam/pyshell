@@ -7,7 +7,6 @@ from pyshell_commands import ls, cd, pwd, echo, logname, man
 
 COMMAND_NAME = 0
 FIRST_ARGUMENT = 1
-LAST_COMMAND = -1
 
 
 def pyshell():
@@ -15,7 +14,6 @@ def pyshell():
     The pyshell! Get a command from user and execute.
     :return: None
     """
-    commands_history = []
     print("Welcome to the Python Shell!")
     while True:
         command = input("{0}:{1} -> ".format(logname([]), pwd([])))

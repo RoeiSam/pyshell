@@ -66,9 +66,9 @@ def logname(arguments):
     return getpass.getuser()
 
 
-def man(arguments: List[str]) -> str:
+def man(arguments):
     """
     Print explanation and usage of the command.
     Usage: man [command]
     """
-    return eval(f"{arguments[0]}.__doc__")
+    return eval("{0}.__doc__".format(arguments[0]))
