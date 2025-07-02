@@ -99,4 +99,20 @@ def mkdir(arguments: List[str]) -> Union[str, None]:
                 return f"mkdir: Cannot create directory ‘{directory}’: No such file or directory"
 
 
-#def rmdir(arguments: List[str]) -> None
+def rmdir(arguments: List[str]) -> Union[str, None]:
+    """
+    Delete an empty directory.
+    Usage: rmdir [directory]...
+    """
+    if len(arguments) <= 1:
+        return "rkdir: missing directory operand"
+    else:
+        for directory in arguments[:HISTORY_LOCATION]:
+            try:
+                os.rmdir(directory)
+            except NotADirectoryError:
+                return f"rmdir: Failed to remove '{directory}': Not a directory"
+            except FileNotFoundError:
+                return f"rmdir: Failed to remove '{directory}': No such file or directory"
+            except OSError:
+                return f"rmdir: Failed to remove '{directory}': Directory not empty"

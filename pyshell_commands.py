@@ -7,7 +7,7 @@ import getpass
 import glob
 import os
 from typing import List, Union
-from files_commands import touch, cat, cp, mv, mkdir
+from files_commands import touch, cat, cp, mv, mkdir, rmdir
 
 HISTORY_LOCATION = -1
 
