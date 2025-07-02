@@ -6,7 +6,7 @@ Time: 01.07.25
 import getpass
 import glob
 import os
-from typing import List
+from typing import List, Union
 from files_commands import touch, cat, cp, mv, mkdir
 
 HISTORY_LOCATION = -1
@@ -30,7 +30,7 @@ def ls(arguments: List[str]) -> str:
         return all_files
 
 
-def cd(arguments: List[str]) -> None:
+def cd(arguments: List[str]) -> Union[str, None]:
     """
     Enter to directory dir.
     Usage: cd [directory]
@@ -38,11 +38,11 @@ def cd(arguments: List[str]) -> None:
     try:
         os.chdir(arguments[0])
     except FileNotFoundError:
-        print("Directory doesn't exists")
+        return "Directory doesn't exists"
     except PermissionError:
-        print("You dont have permission to enter this directory")
+        return "You dont have permission to enter this directory"
     except NotADirectoryError:
-        print("This is not a directory")
+        return "This is not a directory"
 
 
 def pwd(arguments: List[str]) -> str:
