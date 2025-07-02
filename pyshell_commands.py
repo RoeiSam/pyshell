@@ -10,7 +10,7 @@ import os
 
 def ls(arguments):
     """
-    Print all files and directories in current directory.
+    Return all files and directories in current directory.
     """
     if len(arguments) == 0:
         return " ".join(glob.glob("*"))
@@ -46,14 +46,14 @@ def cd(arguments):
 
 def pwd(arguments):
     """
-    Print the current location path.
+    Return the current location path.
     """
     return os.getcwd()
 
 
 def echo(arguments):
     """
-    Print all arguments.
+    Return all arguments.
     Usage: echo [argument] [argument]...
     """
     return " ".join(arguments)
@@ -61,7 +61,7 @@ def echo(arguments):
 
 def logname(arguments):
     """
-    Print user´s login name
+    Return user´s login name
     """
     return getpass.getuser()
 
