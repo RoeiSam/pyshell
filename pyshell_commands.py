@@ -14,18 +14,18 @@ def ls(arguments):
     """
     Return all files and directories in current directory.
     """
-    if len(arguments) == 0:
-        return " ".join(glob.glob("*"))
-    else:
-        all_files = ""
-        for file in arguments:
-            if os.path.isfile(file):
-                all_files += "{0}\n".format(file)
-            elif os.path.isdir(file):
-                all_files += "{0}:\n{1}\n".format(file, " ".join(glob.glob("{0}/*".format(file))))
-            else:
-                all_files += "{0}: No such file or directory\n".format(file)
-        return all_files
+    if len(arguments) == 1:
+        return " ".join(os.listdir())
+    all_files = ""
+    for file in arguments[:HISTORY_LOCATION]:
+        if os.path.isdir(file):
+            files_in_dir = " ".join(os.listdir(file))
+            all_files += "{0}:\n{1}\n".format(file, files_in_dir)
+        elif os.path.exists(file):
+            all_files += "{0}\n".format(file)
+        else:
+            all_files += "{0}: No such file or directory\n".format(file)
+    return all_files
 
 
 def cd(arguments):
@@ -33,7 +33,7 @@ def cd(arguments):
     Enter to directory dir.
     Usage: cd [directory]
     """
-    if len(arguments) == 1:
+    if len(arguments) == 2:
         try:
             os.chdir(arguments[0])
         except FileNotFoundError:
@@ -76,12 +76,12 @@ def man(arguments):
     return eval("{0}.__doc__".format(arguments[0]))
 
 
-def history(arguments: List[str]) -> str:
+def history(arguments):
     """
-    Print the history of your commands.
+    Return the history of your commands.
     """
     commands_history = ""
     for i in range(len(arguments[HISTORY_LOCATION])):
-        commands_history += (f"{i + 1}\t{arguments[HISTORY_LOCATION][i]}\n")
+        commands_history += ("{0}\t{1}\n".format(i + 1, arguments[HISTORY_LOCATION][i]))
     return commands_history
 
