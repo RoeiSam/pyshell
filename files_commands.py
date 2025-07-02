@@ -122,3 +122,23 @@ def rmdir(arguments: List[str]) -> Union[str, None]:
                 exceptions += f"rmdir: failed to remove '{directory}': Directory not empty\n"
 
     return exceptions
+
+
+def rm(arguments: List[str]) -> Union[str, None]:
+    """
+    Delete files.
+    Usage: rm [file]...
+    """
+    exceptions = ""
+    if len(arguments) <= 1:
+        exceptions += "rm: missing file operand"
+    else:
+        for file in arguments[:HISTORY_LOCATION]:
+            try:
+                os.remove(file)
+            except IsADirectoryError:
+                exceptions += f"rm: cannot remove '{file}': Is a directory\n"
+            except (FileNotFoundError, NotADirectoryError):
+                exceptions += f"rm: cannot remove '{file}': No such file or directory\n"
+
+    return exceptions
