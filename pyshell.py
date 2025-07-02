@@ -17,10 +17,13 @@ def pyshell() -> None:
     while True:
         command = input("{0}:{1} -> ".format(logname([]), pwd([])))
         command = command.split()
-        if command:
-            return_string = eval("{0}({1})".format(command[COMMAND_NAME], command[FIRST_ARGUMENT:]))
-            if return_string:
-                print(return_string)
+        try:
+            if command:
+                return_string = eval("{0}({1})".format(command[COMMAND_NAME], command[FIRST_ARGUMENT:]))
+                if return_string:
+                    print(return_string)
+        except NameError:
+            print("No such command")
 
 def main() -> None:
     pyshell()
