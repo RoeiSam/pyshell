@@ -12,6 +12,21 @@ HISTORY_LOCATION = -1
 SOURCE = 0
 DESTINATION = 1
 MV_CP_ARGUMENTS_NUMBER = 3
+SHOULD_DELETE = "y"
+SHOULD_DELETE_OPTIONS = "yn"
+
+
+def _should_delete(file: str) -> bool:
+    """
+    Make sure with user if wants to delte file or directory.
+    :param file: Name of file or directory.
+    :return: True if want to delte, false otherwise.
+    """
+    is_sure = input(f"Are you sure you want to remove {file}? y/n ")
+    while is_sure not in SHOULD_DELETE_OPTIONS:
+        print("Type only y or n")
+        is_sure = input(f"Are you sure you want to remove {file}? y/n")
+    return True if is_sure == SHOULD_DELETE else False
 
 
 def touch(arguments: List[str]) -> Union[str, None]:
@@ -112,14 +127,15 @@ def rmdir(arguments: List[str]) -> Union[str, None]:
         exceptions += "rkdir: missing directory operand"
     else:
         for directory in arguments[:HISTORY_LOCATION]:
-            try:
-                os.rmdir(directory)
-            except NotADirectoryError:
-                exceptions += f"rmdir: failed to remove '{directory}': Not a directory\n"
-            except FileNotFoundError:
-                exceptions += f"rmdir: failed to remove '{directory}': No such file or directory\n"
-            except OSError:
-                exceptions += f"rmdir: failed to remove '{directory}': Directory not empty\n"
+            if _should_delete(directory):
+                try:
+                    os.rmdir(directory)
+                except NotADirectoryError:
+                    exceptions += f"rmdir: failed to remove '{directory}': Not a directory\n"
+                except FileNotFoundError:
+                    exceptions += f"rmdir: failed to remove '{directory}': No such file or directory\n"
+                except OSError:
+                    exceptions += f"rmdir: failed to remove '{directory}': Directory not empty\n"
 
     return exceptions
 
@@ -134,11 +150,12 @@ def rm(arguments: List[str]) -> Union[str, None]:
         exceptions += "rm: missing file operand"
     else:
         for file in arguments[:HISTORY_LOCATION]:
-            try:
-                os.remove(file)
-            except IsADirectoryError:
-                exceptions += f"rm: cannot remove '{file}': Is a directory\n"
-            except (FileNotFoundError, NotADirectoryError):
-                exceptions += f"rm: cannot remove '{file}': No such file or directory\n"
+            if _should_delete(file):
+                try:
+                    os.remove(file)
+                except IsADirectoryError:
+                    exceptions += f"rm: cannot remove '{file}': Is a directory\n"
+                except (FileNotFoundError, NotADirectoryError):
+                    exceptions += f"rm: cannot remove '{file}': No such file or directory\n"
 
     return exceptions
