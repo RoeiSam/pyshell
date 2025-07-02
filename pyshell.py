@@ -5,7 +5,7 @@ Date: 01.07.25
 """
 from pyshell_commands import ls, cd, pwd, echo, logname, man, history
 from parse_command import convert_command
-from files_commands import touch, cat, cp
+from files_commands import touch, cat, cp, mv
 
 COMMAND_NAME = 0
 FIRST_ARGUMENT = 1

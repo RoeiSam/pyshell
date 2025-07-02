@@ -8,9 +8,9 @@ from pathlib import Path
 from typing import List
 
 HISTORY_LOCATION = -1
-CP_SOURCE = 0
-CP_DST = 1
-CP_ARGUMENTS_NUMBER = 3
+SOURCE = 0
+DESTINATION = 1
+MV_CP_ARGUMENTS_NUMBER = 3
 
 
 def touch(arguments: List[str]) -> None:
@@ -50,12 +50,28 @@ def cp(arguments: List[str]) -> None:
     Copy files and directories.
     Usage: cp [source] [destination]
     """
-    if len(arguments) == CP_ARGUMENTS_NUMBER:
+    if len(arguments) == MV_CP_ARGUMENTS_NUMBER:
         try:
-            shutil.copy(arguments[CP_SOURCE], arguments[CP_DST])
+            shutil.copy(arguments[SOURCE], arguments[DESTINATION])
         except FileNotFoundError:
-            print(f"cp: No such file as {arguments[CP_SOURCE]}")
+            print(f"cp: No such file as {arguments[SOURCE]}")
         except IsADirectoryError:
-            print(f"cp: {arguments[CP_SOURCE]} is a directory")
+            print(f"cp: {arguments[SOURCE]} is a directory")
     else:
         print("Usage: cp [source] [destination]")
+
+
+def mv(arguments: List[str]) -> None:
+    """
+    Move or rename a file or a directory.
+    Usage: mv [source] [dest]
+    """
+    if len(arguments) == MV_CP_ARGUMENTS_NUMBER:
+        try:
+            shutil.move(arguments[SOURCE], arguments[DESTINATION])
+        except FileNotFoundError:
+            print(f"mv: No such file or directory {arguments[SOURCE]}")
+        except FileExistsError:
+            print(f"mv: Can't move a directory ({arguments[SOURCE]}) to a file ({arguments[DESTINATION]})")
+    else:
+        print("Usage: mv [source] [destination]")
