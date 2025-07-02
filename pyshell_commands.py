@@ -14,23 +14,26 @@ def ls(arguments):
     """
     if len(arguments) == 0:
         return " ".join(glob.glob("*"))
-    else:
-        all_files = ""
-        for file in arguments:
-            if os.path.isfile(file):
-                all_files += "{0}\n".format(file)
-            elif os.path.isdir(file):
-                all_files += "{0}:\n{1}\n".format(file, " ".join(glob.glob("{0}/*".format(file))))
-            else:
-                all_files += "{0}: No such file or directory\n".format(file)
-        return all_files
+
+    all_files = ""
+    for file in arguments:
+        if os.path.isfile(file):
+            all_files += "{0}\n".format(file)
+        elif os.path.isdir(file):
+            files_in_dir = " ".join(glob.glob("{0}/*".format(file)))
+            all_files += "{0}:\n{1}\n".format(file, files_in_dir)
+        else:
+            all_files += "{0}: No such file or directory\n".format(file)
+    return all_files
 
 
 def cd(arguments):
     """
     Enter to directory dir.
     """
-    if len(arguments) == 1:
+    if len(arguments) != 1:
+        print("Usage: cd [directory]")
+    else:
         try:
             os.chdir(arguments[0])
         except FileNotFoundError:
@@ -39,8 +42,6 @@ def cd(arguments):
             print("You dont have permission to enter this directory")
         except NotADirectoryError:
             print("This is not a directory")
-    else:
-        print("Usage: cd [directory]")
 
 
 def pwd(arguments):
