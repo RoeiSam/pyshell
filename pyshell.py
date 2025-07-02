@@ -15,10 +15,10 @@ def pyshell() -> None:
     """
     print("Welcome to the Python Shell!")
     while True:
-        command = input(f"{logname([])}:{pwd([])} -> ")
+        command = input("{0}:{1} -> ".format(logname([]), pwd([])))
         command = command.split()
         if command:
-            return_string = eval(f"{command[COMMAND_NAME]}({command[FIRST_ARGUMENT:]})")
+            return_string = eval("{0}({1})".format(command[COMMAND_NAME], command[FIRST_ARGUMENT:]))
             if return_string:
                 print(return_string)
 
