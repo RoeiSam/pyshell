@@ -37,9 +37,7 @@ def parse_event_designator(wanted_command, commands_history, command):
     :return: The wanted command in a list of the command name + arguments.
     """
     try:
-        for i in range(len(commands_history[wanted_command].split())):
-            command.insert(i + 1, commands_history[wanted_command].split()[i])
-        del command[0]
+        command = commands_history[wanted_command].split() + command[1:]
         print(" ".join(command))
     except (IndexError, TypeError):
         pass
@@ -54,7 +52,7 @@ def convert_command(command, commands_history):
     :return: The command seperated to command name and arguments.
     """
     command = command.split()
-    if command[COMMAND_NAME].startswith(EVENT_DESIGNATOR_SIGN):
+    if command[COMMAND_NAME].startswith(EVENT_DESIGNATOR_SIGN) and len(command[COMMAND_NAME]) > 1:
         wanted_command = get_event_designator_command(command)
         command = parse_event_designator(wanted_command, commands_history, command)
     return command
