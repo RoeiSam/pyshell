@@ -19,14 +19,16 @@ def touch(arguments: List[str]) -> Union[str, None]:
     Create new file.
     Usage: touch [filename]...
     """
+    exceptions = ""
     if len(arguments) <= 1:
-        return "touch: missing file operand"
+        exceptions += "touch: missing file operand"
     else:
         for file in arguments[:HISTORY_LOCATION]:
             try:
                 Path.touch(file)
-            except NotADirectoryError:
-                return f"touch: cannot touch '{file}': No such file or directory"
+            except FileNotFoundError:
+                exceptions += f"touch: cannot touch '{file}': No such file or directory\n"
+    return exceptions
 
 
 def cat(arguments: List[str]) -> str:
@@ -40,9 +42,9 @@ def cat(arguments: List[str]) -> str:
             with open(file, "r") as read_file:
                 content = content + read_file.read() + "\n"
         except IsADirectoryError:
-            content += f"cat: {file}: Is a directory\n"
+            content += f"cat: {file}: is a directory\n"
         except FileNotFoundError:
-            content += f"cat: {file}: No such file or directory\n"
+            content += f"cat: {file}: no such file or directory\n"
     return content
 
 
@@ -55,7 +57,7 @@ def cp(arguments: List[str]) -> Union[str, None]:
         try:
             shutil.copy(arguments[SOURCE], arguments[DESTINATION])
         except FileNotFoundError:
-            return f"cp: No such file as {arguments[SOURCE]}"
+            return f"cp: no such file as {arguments[SOURCE]}"
         except IsADirectoryError:
             return f"cp: {arguments[SOURCE]} is a directory"
     else:
@@ -71,11 +73,11 @@ def mv(arguments: List[str]) -> Union[str, None]:
         try:
             shutil.move(arguments[SOURCE], arguments[DESTINATION])
         except FileNotFoundError:
-            return f"mv: No such file or directory {arguments[SOURCE]}"
+            return f"mv: no such file or directory {arguments[SOURCE]}"
         except FileExistsError:
-            return f"mv: Can't move a directory ({arguments[SOURCE]}) to a file ({arguments[DESTINATION]})"
+            return f"mv: can't move a directory ({arguments[SOURCE]}) to a file ({arguments[DESTINATION]})"
         except shutil.Error:
-            return f"mv: Destination {arguments[DESTINATION]} already exists"
+            return f"mv: destination {arguments[DESTINATION]} already exists"
     else:
         return "Usage: mv [source] [destination]"
 
@@ -85,34 +87,38 @@ def mkdir(arguments: List[str]) -> Union[str, None]:
     Create new directory.
     Usage: mkdir [filename]...
     """
+    exceptions = ""
     if len(arguments) <= 1:
-        return "mkdir: missing directory operand"
+        exceptions += "mkdir: missing directory operand"
     else:
         for directory in arguments[:HISTORY_LOCATION]:
             try:
                 os.mkdir(directory)
             except FileExistsError:
-                return f"mkdir: File or directory {directory} already exists"
+                exceptions += f"mkdir: file or directory {directory} already exists\n"
             except NotADirectoryError:
-                return f"mkdir: Cannot create directory ‘{directory}’: Not a directory"
+                exceptions += f"mkdir: cannot create directory ‘{directory}’: Not a directory\n"
             except FileNotFoundError:
-                return f"mkdir: Cannot create directory ‘{directory}’: No such file or directory"
-
+                exceptions += f"mkdir: cannot create directory ‘{directory}’: No such file or directory\n"
+    return exceptions
 
 def rmdir(arguments: List[str]) -> Union[str, None]:
     """
     Delete an empty directory.
     Usage: rmdir [directory]...
     """
+    exceptions = ""
     if len(arguments) <= 1:
-        return "rkdir: missing directory operand"
+        exceptions += "rkdir: missing directory operand"
     else:
         for directory in arguments[:HISTORY_LOCATION]:
             try:
                 os.rmdir(directory)
             except NotADirectoryError:
-                return f"rmdir: Failed to remove '{directory}': Not a directory"
+                exceptions += f"rmdir: failed to remove '{directory}': Not a directory\n"
             except FileNotFoundError:
-                return f"rmdir: Failed to remove '{directory}': No such file or directory"
+                exceptions += f"rmdir: failed to remove '{directory}': No such file or directory\n"
             except OSError:
-                return f"rmdir: Failed to remove '{directory}': Directory not empty"
+                exceptions += f"rmdir: failed to remove '{directory}': Directory not empty\n"
+
+    return exceptions
