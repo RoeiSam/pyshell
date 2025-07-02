@@ -8,7 +8,7 @@ from pyshell_commands import ls, cd, pwd, echo, logname
 COMMAND_NAME = 0
 FIRST_ARGUMENT = 1
 
-def pyshell() -> None:
+def pyshell():
     """
     The pyshell! Get a command from user and execute.
     :return: None
@@ -25,7 +25,7 @@ def pyshell() -> None:
         except NameError:
             print("No such command")
 
-def main() -> None:
+def main():
     pyshell()
 
 if __name__ == "__main__":

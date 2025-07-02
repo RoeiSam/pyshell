@@ -6,10 +6,9 @@ Time: 01.07.25
 import getpass
 import glob
 import os
-from typing import List
 
 
-def ls(arguments: List[str]) -> str:
+def ls(arguments):
     """
     Return a list of all files and directories in current directory.
     """
@@ -19,15 +18,15 @@ def ls(arguments: List[str]) -> str:
         all_files = ""
         for file in arguments:
             if os.path.isfile(file):
-                all_files += f"{file}\n"
+                all_files += "{0}\n".format(file)
             elif os.path.isdir(file):
-                all_files += f"{file}:\n{" ".join(glob.glob(f"{file}/*"))}\n"
+                all_files += "{0}:\n{1}\n".format(file, " ".join(glob.glob("{0}/*".format(file))))
             else:
-                all_files += f"{file}: No such file or directory\n"
+                all_files += "{0}: No such file or directory\n".format(file)
         return all_files
 
 
-def cd(arguments: List[str]) -> None:
+def cd(arguments):
     """
     Enter to directory dir.
     """
@@ -44,21 +43,21 @@ def cd(arguments: List[str]) -> None:
         print("Usage: cd [directory]")
 
 
-def pwd(arguments: List[str]) -> str:
+def pwd(arguments):
     """
     Return the current location path.
     """
     return os.getcwd()
 
 
-def echo(arguments: List[str]) -> str:
+def echo(arguments):
     """
     Return all arguments as a string.
     """
     return " ".join(arguments)
 
 
-def logname(arguments: List[str]) -> str:
+def logname(arguments):
     """
     Return user´s login name
     """
