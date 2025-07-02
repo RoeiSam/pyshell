@@ -4,7 +4,6 @@ Author: Roei Samuel
 Time: 01.07.25
 """
 import getpass
-import glob
 import os
 
 
@@ -13,15 +12,16 @@ def ls(arguments):
     Return a list of all files and directories in current directory.
     """
     if len(arguments) == 0:
-        return " ".join(glob.glob("*"))
+        return " ".join(os.listdir())
 
     all_files = ""
     for file in arguments:
-        if os.path.isfile(file):
-            all_files += "{0}\n".format(file)
-        elif os.path.isdir(file):
-            files_in_dir = " ".join(glob.glob("{0}/*".format(file)))
+
+        if os.path.isdir(file):
+            files_in_dir = " ".join(os.listdir(file))
             all_files += "{0}:\n{1}\n".format(file, files_in_dir)
+        elif os.path.exists(file):
+            all_files += "{0}\n".format(file)
         else:
             all_files += "{0}: No such file or directory\n".format(file)
     return all_files
