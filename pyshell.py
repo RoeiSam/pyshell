@@ -10,7 +10,7 @@ COMMAND_NAME = 0
 FIRST_ARGUMENT = 1
 
 
-def pyshell() -> None:
+def pyshell():
     """
     The pyshell! Get a command from user and execute.
     :return: None
@@ -18,19 +18,20 @@ def pyshell() -> None:
     commands_history = []
     print("Welcome to the Python Shell!")
     while True:
-        command = input(f"{logname([])}:{pwd([])} -> ")
+        command = input("{0}:{1} -> ".format(logname([]), pwd([])))
         if command:
             command = convert_command(command, commands_history)
             commands_history.append(" ".join(command))
             command.append(commands_history)
             try:
-                return_string = eval(f"{command[COMMAND_NAME]}({command[FIRST_ARGUMENT:]})")
+                return_string = eval("{0}({1})".format(command[COMMAND_NAME], command[FIRST_ARGUMENT:]))
                 if return_string:
                     print(return_string)
             except (NameError, SyntaxError):
                 print("No such command")
 
-def main() -> None:
+
+def main():
     pyshell()
 
 if __name__ == "__main__":
