@@ -4,6 +4,7 @@ Author: Roei Samuel
 Time: 01.07.25
 """
 import shutil
+import os
 from pathlib import Path
 from typing import List
 
@@ -73,5 +74,26 @@ def mv(arguments: List[str]) -> None:
             print(f"mv: No such file or directory {arguments[SOURCE]}")
         except FileExistsError:
             print(f"mv: Can't move a directory ({arguments[SOURCE]}) to a file ({arguments[DESTINATION]})")
+        except shutil.Error:
+            print(f"mv: Destination {arguments[DESTINATION]} already exists")
     else:
         print("Usage: mv [source] [destination]")
+
+
+def mkdir(arguments: List[str]) -> None:
+    """
+    Create new directory.
+    Usage: mkdir [filename]...
+    """
+    if len(arguments) <= 1:
+        print("mkdir: missing directory operand")
+    else:
+        for directory in arguments[:HISTORY_LOCATION]:
+            try:
+                os.mkdir(directory)
+            except FileExistsError:
+                print(f"mkdir: File or directory {directory} already exists")
+            except NotADirectoryError:
+                print(f"mkdir: Cannot create directory ‘{directory}’: Not a directory")
+            except FileNotFoundError:
+                print(f"mkdir: Cannot create directory ‘{directory}’: No such file or directory")
