@@ -8,6 +8,8 @@ import glob
 import os
 from typing import List
 
+HISTORY_LOCATION = -1
+
 
 def ls(arguments: List[str]) -> str:
     """
@@ -43,7 +45,7 @@ def echo(arguments: List[str]) -> str:
     Print all arguments.
     Usage: echo [argument] [argument]...
     """
-    return " ".join(arguments)
+    return " ".join(arguments[:HISTORY_LOCATION])
 
 
 def logname(arguments: List[str]) -> str:
@@ -59,3 +61,13 @@ def man(arguments: List[str]) -> str:
     Usage: man [command]
     """
     return eval(f"{arguments[0]}.__doc__")
+
+
+def history(arguments: List[str]) -> str:
+    """
+    Print the history of your commands.
+    """
+    commands_history = ""
+    for i in range(len(arguments[HISTORY_LOCATION])):
+        commands_history += (f"{i + 1}\t{arguments[HISTORY_LOCATION][i]}\n")
+    return commands_history
