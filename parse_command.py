@@ -3,7 +3,6 @@ Purpose: Parse a command from input to list of command name + arguments.
 Author: Roei Samuel
 Time: 01.07.25
 """
-from typing import List
 
 COMMAND_NAME = 0
 LAST_COMMAND = -1
@@ -13,7 +12,7 @@ EVENT_DESIGNATOR_NUMBER = 2
 EVENT_DESIGNATOR_LAST_COMMAND = "!"
 EVENT_DESIGNATOR_FROM_END = "-"
 
-def get_event_designator_command(command: List[str]) -> int:
+def get_event_designator_command(command):
     """
     Return the wanted command location in commands_history for an event designator.
     :param command: Command input from user.
@@ -29,7 +28,7 @@ def get_event_designator_command(command: List[str]) -> int:
         wanted_command = -int(command[COMMAND_NAME][EVENT_DESIGNATOR_NUMBER:])
     return wanted_command
 
-def parse_event_designator(wanted_command: int, commands_history: List[str], command: List[str]) -> List[str]:
+def parse_event_designator(wanted_command, commands_history, command):
     """
     Convert event designator to the wanted command.
     :param wanted_command: Location of wanted command in commands history list.
@@ -47,7 +46,7 @@ def parse_event_designator(wanted_command: int, commands_history: List[str], com
     return command
 
 
-def convert_command(command: str, commands_history: List[str]) -> str:
+def convert_command(command, commands_history):
     """
     Convert input from user to command and arguments.
     :param command: The input from the user.

@@ -4,7 +4,6 @@ Author: Roei Samuel
 Time: 01.07.25
 """
 import getpass
-import glob
 import os
 
 HISTORY_LOCATION = -1
