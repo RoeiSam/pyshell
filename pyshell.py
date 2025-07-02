@@ -3,10 +3,11 @@ Purpose: Implementation of shell
 Author: Roei Samuel
 Date: 01.07.25
 """
-from pyshell_commands import ls, cd, pwd, echo, logname
+from pyshell_commands import ls, cd, pwd, echo, logname, man
 
 COMMAND_NAME = 0
 FIRST_ARGUMENT = 1
+
 
 def pyshell():
     """
@@ -24,6 +25,7 @@ def pyshell():
                     print(return_string)
         except NameError:
             print("No such command")
+
 
 def main():
     pyshell()

@@ -10,7 +10,7 @@ import os
 
 def ls(arguments):
     """
-    Return a list of all files and directories in current directory.
+    Return all files and directories in current directory.
     """
     if len(arguments) == 0:
         return " ".join(glob.glob("*"))
@@ -29,6 +29,7 @@ def ls(arguments):
 def cd(arguments):
     """
     Enter to directory dir.
+    Usage: cd [directory]
     """
     if len(arguments) == 1:
         try:
@@ -52,7 +53,8 @@ def pwd(arguments):
 
 def echo(arguments):
     """
-    Return all arguments as a string.
+    Return all arguments.
+    Usage: echo [argument] [argument]...
     """
     return " ".join(arguments)
 
@@ -63,3 +65,10 @@ def logname(arguments):
     """
     return getpass.getuser()
 
+
+def man(arguments):
+    """
+    Print explanation and usage of the command.
+    Usage: man [command]
+    """
+    return eval("{0}.__doc__".format(arguments[0]))
